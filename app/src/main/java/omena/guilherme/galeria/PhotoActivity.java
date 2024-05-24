@@ -1,9 +1,12 @@
 package omena.guilherme.galeria;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
@@ -16,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class PhotoActivity extends AppCompatActivity {
 
+    String photoPath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +30,14 @@ public class PhotoActivity extends AppCompatActivity {
         
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        Intent i = getIntent();
+        photoPath = i.getStringExtra("photo_path");
+
+        Bitmap bitmap = Util.getBitmap(photoPath);
+        ImageView imPhoto = findViewById(R.id.imPhoto);
+        imPhoto.setImageBitmap(bitmap);
+
     }
 
     private void setSupportActionBar(Toolbar toolbar) {
@@ -41,7 +53,6 @@ public class PhotoActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         // Case haja o clique no icone, sera executado o codigo que compartilha a foto
         switch (item.getItemId()){
             case R.id.opShare:
