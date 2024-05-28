@@ -8,12 +8,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -42,9 +42,6 @@ public class PhotoActivity extends AppCompatActivity {
         ImageView imPhoto = findViewById(R.id.imPhoto);
         imPhoto.setImageBitmap(bitmap);
 
-    }
-
-    private void setSupportActionBar(Toolbar toolbar) {
     }
 
     @Override
