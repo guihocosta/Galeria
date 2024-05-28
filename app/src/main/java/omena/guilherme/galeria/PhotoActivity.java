@@ -58,13 +58,11 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // Case haja o clique no icone, sera executado o codigo que compartilha a foto
-        switch (item.getItemId()){
-            case R.id.opShare:
-                sharePhoto();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.opShare) {
+            sharePhoto();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void sharePhoto() {
