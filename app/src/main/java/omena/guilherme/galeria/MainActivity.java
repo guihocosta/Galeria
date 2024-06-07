@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Acessa a pasta que criamos
         File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        // Lista com as fotos
         File[] files = dir.listFiles();
 
         // Adiciona o caminho para a foto na lista de Strings
@@ -70,23 +72,28 @@ public class MainActivity extends AppCompatActivity {
 
         float w = getResources().getDimension(R.dimen.itemWidth);
         int numberOfColumns = Util.calculateNoOfColumns(MainActivity.this, w);
+
+        // Grid em colunas
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, numberOfColumns);
         rvGallery.setLayoutManager(gridLayoutManager);
 
+        // Lista de permissoes
         List<String> permissions = new ArrayList<>();
+
+        // Adiciona permissao para acessar camera
         permissions.add(Manifest.permission.CAMERA);
+
+        // Checa as permissoes
         checkForPermissions(permissions);
-
-
-
-
-
     }
 
+    // Opcoes do Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
+
+        // Infla a View do Menu
         inflater.inflate(R.menu.main_activity_tb, menu);
         return true;
     }
@@ -94,22 +101,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     // Chama quando o item é selecionado da Toolbar
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        // Se a camera for selecionada
         if (item.getItemId() == R.id.opCamera) {
+
+            // Intent para tirar a foto
             dispatchTakePictureIntent();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    // Metodo para disparar o app de camera
     private void dispatchTakePictureIntent() {
         File f = null;
+
+
         try{
             f = createImageFile();
-        } catch (IOException e){
+        }
+
+        // Se o arquivo nao for criado...
+        catch (IOException e){
             Toast.makeText(MainActivity.this, "Não foi possível criar o arquivo", Toast.LENGTH_LONG).show();
             return;
         }
 
+        // Pega o caminho absoluto da foto
         currentPhotoPath = f.getAbsolutePath();
 
         if (f != null){
@@ -123,11 +141,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Cria o arquo da imagem
     private File createImageFile() throws IOException {
 
         // Utilizando a data para criar o nome do arquivo
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        // Nome do arquivo sera JPEG com a data
         String imageFileName = "JPEG_" + timeStamp;
+
+        // Pega a pasta em que as imagens estao
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File f = File.createTempFile(imageFileName, ".jpg", storageDir);
         return f;
@@ -156,15 +179,23 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    // Checando as permissoes
     private void checkForPermissions(List<String> permissions){
+
         List<String> permissionsNotGranted = new ArrayList<>();
 
+        // Permissoes sao verificadas
         for (String permission : permissions){
+
+            // Caso o usu nao tenha dado permissao
             if (!hasPermission(permission)){
+
+                //permissoes que ainda nao foram dadas
                 permissionsNotGranted.add(permission);
             }
         }
 
+        // Requisita as permissoes que ainda nao foram concedidas
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(permissionsNotGranted.size() > 0){
                 requestPermissions(permissionsNotGranted.toArray(new String[permissionsNotGranted.size()]), RESULT_REQUEST_PERMISSION);
@@ -174,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Funcao que testa se ha a permissao
     private boolean hasPermission(String permission) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             return ActivityCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_GRANTED;
@@ -186,9 +218,12 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+        // Permissoes rejeitadas
         final List<String> permissionsRejected = new ArrayList<>();
         if (requestCode == RESULT_REQUEST_PERMISSION){
             for(String permission : permissions){
+
+                // Testa se a permissao foi concedida
                 if(!hasPermission(permission)){
                     permissionsRejected.add(permission);
                 }
@@ -197,8 +232,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (permissionsRejected.size() > 0){
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+
+                // Checa se podemos pedir permissoes ao usuario
                 if(shouldShowRequestPermissionRationale(permissionsRejected.get(0))){
                     new AlertDialog.Builder(MainActivity.this).setMessage("Para usar essa app é preciso conceder essas permissões.").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             requestPermissions(permissionsRejected.toArray(new String[permissionsRejected.size()]),RESULT_REQUEST_PERMISSION);

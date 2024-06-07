@@ -31,7 +31,8 @@ public class PhotoActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.tbPhoto);
         setSupportActionBar(toolbar);
-        
+
+        // Botao de voltar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -62,8 +63,13 @@ public class PhotoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Compartilhar fotos com outras apps
     private void sharePhoto() {
+
+        // Uri da foto para que as outras app acessam a nossa imagem
         Uri photoUri = FileProvider.getUriForFile(PhotoActivity.this,"omena.guilherme.galeria.fileprovider", new File(photoPath));
+
+        // Intencao de enviar
         Intent i = new Intent(Intent.ACTION_SEND);
         i.putExtra(Intent.EXTRA_STREAM, photoUri);
         i.setType("image/jpeg");
