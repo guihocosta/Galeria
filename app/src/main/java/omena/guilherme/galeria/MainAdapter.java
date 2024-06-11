@@ -43,6 +43,7 @@ public class MainAdapter extends RecyclerView.Adapter {
         imPhoto.setOnClickListener(new View.OnClickListener(){
 
             @Override
+            // Para dar foco na imagem no centro da tela
             public void onClick(View v) {
                 mainActivity.startPhotoActivity(photos.get(position));
             }

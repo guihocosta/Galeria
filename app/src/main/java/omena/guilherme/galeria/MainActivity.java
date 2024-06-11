@@ -97,9 +97,8 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main_activity_tb, menu);
         return true;
     }
-
-    @Override
     // Chama quando o item é selecionado da Toolbar
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         // Se a camera for selecionada
